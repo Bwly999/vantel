@@ -1,4 +1,4 @@
-package cn.edu.xmu.vantel.core;
+package cn.edu.xmu.vantel.core.aop.user;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

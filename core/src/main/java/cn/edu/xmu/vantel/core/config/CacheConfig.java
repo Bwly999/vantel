@@ -2,6 +2,7 @@ package cn.edu.xmu.vantel.core.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.cache.CacheProperties;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
@@ -22,6 +23,7 @@ import java.time.Duration;
 @Configuration
 @EnableCaching
 @EnableConfigurationProperties(CacheProperties.class)
+@ConditionalOnBean(value = RedisTemplate.class)
 public class CacheConfig extends CachingConfigurerSupport {
     static class MyRedisCacheManager extends RedisCacheManager {
         public MyRedisCacheManager(RedisCacheWriter cacheWriter, RedisCacheConfiguration defaultCacheConfiguration) {

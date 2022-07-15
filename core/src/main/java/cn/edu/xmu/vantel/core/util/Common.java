@@ -1,13 +1,16 @@
 package cn.edu.xmu.vantel.core.util;
 
+import cn.edu.xmu.vantel.core.model.Response;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.http.protocol.HttpContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.context.request.RequestContextHolder;
 
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Field;
@@ -334,30 +337,64 @@ public class Common {
         }
     }
 
+    public static HttpStatus getHttpStatus(ReturnObject<?> returnObject) {
+        switch (returnObject.getCode()) {
+            case RESOURCE_ID_NOTEXIST:
+                // 404：资源不存在
+                return HttpStatus.NOT_FOUND;
+
+            case AUTH_INVALID_JWT:
+            case AUTH_JWT_EXPIRED:
+                // 401
+                return HttpStatus.UNAUTHORIZED;
+
+            case INTERNAL_SERVER_ERR:
+                // 500：数据库或其他严重错误
+                return HttpStatus.INTERNAL_SERVER_ERROR;
+
+            case FIELD_NOTVALID:
+            case IMG_FORMAT_ERROR:
+            case IMG_SIZE_EXCEED:
+            case FILE_NOT_EXIST:
+                // 400
+                return HttpStatus.BAD_REQUEST;
+
+            case RESOURCE_ID_OUTSCOPE:
+            case  FILE_NO_WRITE_PERMISSION:
+            case AUTH_NO_RIGHT:
+            case AUTH_NEED_LOGIN:
+                // 403
+                return HttpStatus.FORBIDDEN;
+
+            default:
+                return HttpStatus.OK;
+
+        }
+    }
     /**
      * 根据 errCode 修饰 API 返回对象的 HTTP Status
      * @param returnObject 原返回 Object
      * @return 修饰后的返回 Object
      */
-    public static Object decorateReturnObject(ReturnObject returnObject) {
+    public static <T> ResponseEntity<Response<T>> decorateReturnObject(ReturnObject<T> returnObject) {
         switch (returnObject.getCode()) {
             case RESOURCE_ID_NOTEXIST:
                 // 404：资源不存在
-                return new ResponseEntity(
-                        ResponseUtil.fail(returnObject.getCode(), returnObject.getErrmsg()),
+                return new ResponseEntity<>(
+                        ResponseUtil.fail(returnObject.getCode()),
                         HttpStatus.NOT_FOUND);
 
             case AUTH_INVALID_JWT:
             case AUTH_JWT_EXPIRED:
                 // 401
-                return new ResponseEntity(
-                        ResponseUtil.fail(returnObject.getCode(), returnObject.getErrmsg()),
+                return new ResponseEntity<>(
+                        ResponseUtil.fail(returnObject.getCode()),
                         HttpStatus.UNAUTHORIZED);
 
             case INTERNAL_SERVER_ERR:
                 // 500：数据库或其他严重错误
-                return new ResponseEntity(
-                        ResponseUtil.fail(returnObject.getCode(), returnObject.getErrmsg()),
+                return new ResponseEntity<>(
+                        ResponseUtil.fail(returnObject.getCode()),
                         HttpStatus.INTERNAL_SERVER_ERROR);
 
             case FIELD_NOTVALID:
@@ -365,8 +402,8 @@ public class Common {
             case IMG_SIZE_EXCEED:
             case FILE_NOT_EXIST:
                 // 400
-                return new ResponseEntity(
-                        ResponseUtil.fail(returnObject.getCode(), returnObject.getErrmsg()),
+                return new ResponseEntity<>(
+                        ResponseUtil.fail(returnObject.getCode()),
                         HttpStatus.BAD_REQUEST);
 
             case RESOURCE_ID_OUTSCOPE:
@@ -374,26 +411,16 @@ public class Common {
             case AUTH_NO_RIGHT:
             case AUTH_NEED_LOGIN:
                 // 403
-                return new ResponseEntity(
-                        ResponseUtil.fail(returnObject.getCode(), returnObject.getErrmsg()),
+                return new ResponseEntity<>(
+                        ResponseUtil.fail(returnObject.getCode()),
                         HttpStatus.FORBIDDEN);
 
             case OK:
                 // 200: 无错误
-                Object data = returnObject.getData();
-                if (data != null){
-                    return ResponseUtil.ok(data);
-                }else{
-                    return ResponseUtil.ok();
-                }
+                return ResponseEntity.ok(ResponseUtil.ok(returnObject.getData()));
 
             default:
-                data = returnObject.getData();
-                if (data != null){
-                    return ResponseUtil.fail(returnObject.getCode(), returnObject.getErrmsg(), returnObject.getData());
-                }else{
-                    return ResponseUtil.fail(returnObject.getCode(), returnObject.getErrmsg());
-                }
+                return ResponseEntity.ok(ResponseUtil.fail(returnObject.getCode(), returnObject.getErrmsg(), returnObject.getData()));
 
         }
     }

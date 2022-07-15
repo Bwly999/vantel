@@ -1,10 +1,8 @@
-package cn.edu.xmu.vantel.core;
+package cn.edu.xmu.vantel.core.aop.user;
 
 import cn.edu.xmu.vantel.core.util.ResponseUtil;
 import cn.edu.xmu.vantel.core.util.ReturnNo;
 import cn.edu.xmu.vantel.core.util.JwtHelper;
-import cn.edu.xmu.vantel.core.util.ResponseUtil;
-import cn.edu.xmu.vantel.core.util.ReturnNo;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -39,7 +37,7 @@ public class AuditAspect {
     private static final String LOG = "%s: %s";
 
     //Controller层切点
-    @Pointcut("@annotation(Audit)")
+    @Pointcut("@annotation(cn.edu.xmu.vantel.core.aop.user.Audit)")
     public void auditAspect() {
     }
 

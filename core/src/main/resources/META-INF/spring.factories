@@ -1,0 +1,9 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  cn.edu.xmu.vantel.core.aop.user.AuditAspect,\
+  cn.edu.xmu.vantel.core.config.ResponseControllerAdvice,\
+  cn.edu.xmu.vantel.core.config.CacheConfig,\
+  cn.edu.xmu.vantel.core.config.MvcConfig,\
+  cn.edu.xmu.vantel.core.config.LoadBalanceConfig,\
+  cn.edu.xmu.vantel.core.config.OpenFeignConfig,\
+  cn.edu.xmu.vantel.core.config.RedisConfig,\
+  cn.edu.xmu.vantel.core.util.storage.config.StorageAutoConfiguration

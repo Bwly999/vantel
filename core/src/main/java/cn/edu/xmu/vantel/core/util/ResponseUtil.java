@@ -1,5 +1,7 @@
 package cn.edu.xmu.vantel.core.util;
 
+import cn.edu.xmu.vantel.core.model.Response;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,41 +39,24 @@ import java.util.Map;
  * </ul>
  */
 public class ResponseUtil {
-    public static Object ok() {
-        Map<String, Object> obj = new HashMap<String, Object>();
-        obj.put("errno", ReturnNo.OK.getCode());
-        obj.put("errmsg", ReturnNo.OK.getMessage());
-        return obj;
+    public static <T> Response<T> ok() {
+        return new Response<>(ReturnNo.OK.getCode(), ReturnNo.OK.getMessage());
     }
 
-    public static Object ok(Object data) {
-        Map<String, Object> obj = new HashMap<String, Object>();
-        obj.put("errno", ReturnNo.OK.getCode());
-        obj.put("errmsg", ReturnNo.OK.getMessage());
-        obj.put("data", data);
-        return obj;
+    public static <T> Response<T>  ok(T data) {
+        return new Response<>(ReturnNo.OK.getCode(), ReturnNo.OK.getMessage(), data);
     }
 
-    public static Object fail(ReturnNo code) {
-        Map<String, Object> obj = new HashMap<String, Object>();
-        obj.put("errno", code.getCode());
-        obj.put("errmsg", code.getMessage());
-        return obj;
+    public static <T> Response<T> fail(ReturnNo returnNo) {
+        return new Response<T>(returnNo.getCode(), returnNo.getMessage());
     }
 
-    public static Object fail(ReturnNo code, String errmsg) {
-        Map<String, Object> obj = new HashMap<String, Object>();
-        obj.put("errno", code.getCode());
-        obj.put("errmsg", errmsg);
-        return obj;
+    public static <T> Response<T> fail(ReturnNo returnNo, String errmsg) {
+        return new Response<>(returnNo.getCode(), errmsg);
     }
 
-    public static Object fail(ReturnNo code, String errmsg, Object data) {
-        Map<String, Object> obj = new HashMap<String, Object>();
-        obj.put("errno", code.getCode());
-        obj.put("errmsg", errmsg);
-        obj.put("data", data);
-        return obj;
+    public static <T> Response<T> fail(ReturnNo returnNo, String errmsg, T data) {
+        return new Response<>(returnNo.getCode(), errmsg, data);
     }
 }
 
