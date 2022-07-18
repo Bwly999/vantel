@@ -11,15 +11,15 @@ services:
     build: gateway
     restart: always
     depends_on:
-      registry:
-        condition: service_healthy
+      - registry:
+          condition: service_healthy
 
   admin:
     build: admin
     restart: always
     depends_on:
-      registry:
-        condition: service_healthy
+      - registry:
+          condition: service_healthy
     ports:
       - 8090:8090
 
@@ -27,8 +27,8 @@ services:
     build: room
     restart: always
     depends_on:
-      registry:
-        condition: service_healthy
+      - registry:
+          condition: service_healthy
     ports:
     - 8100:8100
 
