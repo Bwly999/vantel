@@ -34,6 +34,8 @@ public class JwtHelper {
     // Request中的变量名
     public static final String LOGIN_TOKEN_KEY = "authorization";
 
+    public static int defaultExpireTime = 7 * 24 * 60 * 60;
+
     public static class UserAndDepart{
         private Long userId;
         private String userName;
@@ -113,6 +115,10 @@ public class JwtHelper {
             logger.error(exception.getMessage() + '\n' + Arrays.toString(exception.getStackTrace()));
         }
         return null;
+    }
+
+    public static String createToken(Long userId, String userName) {
+        return createToken(userId, userName, 0L, 0, defaultExpireTime);
     }
 
     /**

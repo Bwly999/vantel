@@ -3,11 +3,8 @@ package cn.edu.xmu.vantel.admin.controller;
 import cn.edu.xmu.vantel.admin.model.Admin;
 import cn.edu.xmu.vantel.admin.model.vo.LoginRetVo;
 import cn.edu.xmu.vantel.admin.service.AdminService;
-import cn.edu.xmu.vantel.core.util.Common;
 import cn.edu.xmu.vantel.core.util.ReturnObject;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

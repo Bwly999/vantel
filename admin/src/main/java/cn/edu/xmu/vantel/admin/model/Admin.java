@@ -1,5 +1,6 @@
 package cn.edu.xmu.vantel.admin.model;
 
+import cn.edu.xmu.vantel.core.config.mybatis.EncryptValue;
 import cn.edu.xmu.vantel.core.model.BaseEntity;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.TableLogic;
@@ -20,7 +21,9 @@ import javax.validation.constraints.NotBlank;
 public class Admin extends BaseEntity {
     @NotBlank
     private String username;
+
     @NotBlank
+    @EncryptValue
     private String password;
     private State state;
     @TableLogic(value = "0", delval = "1")

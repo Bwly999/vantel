@@ -4,7 +4,11 @@ import cn.edu.xmu.vantel.admin.mapper.AdminMapper;
 import cn.edu.xmu.vantel.admin.model.Admin;
 import cn.edu.xmu.vantel.admin.model.vo.LoginRetVo;
 import cn.edu.xmu.vantel.admin.service.AdminService;
+import cn.edu.xmu.vantel.core.util.JwtHelper;
+import cn.edu.xmu.vantel.core.util.ReturnNo;
 import cn.edu.xmu.vantel.core.util.ReturnObject;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +17,17 @@ public class AdminServiceImp extends ServiceImpl<AdminMapper, Admin> implements 
 
     @Override
     public ReturnObject<LoginRetVo> login(Admin admin) {
-        return null;
+        LambdaQueryWrapper<Admin> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper
+                .eq(Admin::getUsername, admin.getUsername())
+                .eq(Admin::getPassword, admin.getPassword());
+
+        Admin daoAdmin = getOne(queryWrapper);
+        if (daoAdmin == null) {
+            return new ReturnObject<>(ReturnNo.CUSTOMER_INVALID_ACCOUNT);
+        }
+
+        String token = JwtHelper.createToken(daoAdmin.getId(), daoAdmin.getUsername());
+        return new ReturnObject<>(new LoginRetVo(token));
     }
 }
