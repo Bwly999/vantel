@@ -1,6 +1,7 @@
 package cn.edu.xmu.vantel.admin.controller;
 
 import cn.edu.xmu.vantel.admin.model.Admin;
+import cn.edu.xmu.vantel.admin.model.vo.LoginRetVo;
 import cn.edu.xmu.vantel.admin.service.AdminService;
 import cn.edu.xmu.vantel.core.util.Common;
 import cn.edu.xmu.vantel.core.util.ReturnObject;
@@ -19,7 +20,7 @@ public class AdminController {
      * 登录
      */
     @PostMapping("/login")
-    public ReturnObject<String> login(@RequestBody Admin admin) {
-        return new ReturnObject<>("11");
+    public ReturnObject<LoginRetVo> login(@RequestBody Admin admin) {
+        return adminService.login(admin);
     }
 }

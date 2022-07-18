@@ -30,7 +30,7 @@ public class FillHandler implements MetaObjectHandler {
         if (token == null){
             return new FillInfo();
         }
-        JwtHelper.UserAndDepart userAndDepart = new JwtHelper().verifyTokenAndGetClaims(token);
+        JwtHelper.UserAndDepart userAndDepart = JwtHelper.verifyTokenAndGetClaims(token);
         Long userId;
         String userName;
         if (null != userAndDepart){

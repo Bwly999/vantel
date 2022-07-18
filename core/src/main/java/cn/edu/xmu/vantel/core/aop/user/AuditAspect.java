@@ -64,7 +64,7 @@ public class AuditAspect {
             return ResponseUtil.fail(ReturnNo.AUTH_NEED_LOGIN);
         }
 
-        JwtHelper.UserAndDepart userAndDepart = new JwtHelper().verifyTokenAndGetClaims(token);
+        JwtHelper.UserAndDepart userAndDepart = JwtHelper.verifyTokenAndGetClaims(token);
         Long userId = null;
         Long departId = null;
         String userName=null;

@@ -21,12 +21,12 @@ import java.util.*;
  */
 public class JwtHelper {
 
-    private Logger logger = LoggerFactory.getLogger(JwtHelper.class);
+    private static Logger logger = LoggerFactory.getLogger(JwtHelper.class);
 
     // 秘钥
     static final String SECRET = "Role-Privilege-Token";
     // 签名是有谁生成
-    static final String ISSUSER = "OOAD";
+    static final String ISSUSER = "VANTEL";
     // 签名的主题
     static final String SUBJECT = "this is a token";
     // 签名的观众
@@ -34,7 +34,7 @@ public class JwtHelper {
     // Request中的变量名
     public static final String LOGIN_TOKEN_KEY = "authorization";
 
-    public class UserAndDepart{
+    public static class UserAndDepart{
         private Long userId;
         private String userName;
         private Long departId;
@@ -77,7 +77,7 @@ public class JwtHelper {
      * @param departId 部门id
      * @return token
      */
-    public String createToken(Long userId, String userName,Long departId,Integer userLevel, int expireTime) {
+    public static String createToken(Long userId, String userName,Long departId,Integer userLevel, int expireTime) {
         logger.debug("createToken:");
         try {
             Algorithm algorithm = Algorithm.HMAC256(SECRET);
@@ -110,7 +110,7 @@ public class JwtHelper {
                     .sign(algorithm);
             return token;
         } catch (JWTCreationException exception) {
-            exception.printStackTrace();
+            logger.error(exception.getMessage() + '\n' + Arrays.toString(exception.getStackTrace()));
         }
         return null;
     }
@@ -121,7 +121,7 @@ public class JwtHelper {
      * @return UserAndDepart
      *    modifiedBy Ming Qiu 2020/11/3 23:09
      */
-    public UserAndDepart verifyTokenAndGetClaims(String token) {
+    public static UserAndDepart verifyTokenAndGetClaims(String token) {
         if (token == null || token.isEmpty()) {
             return null;
         }
@@ -143,7 +143,7 @@ public class JwtHelper {
         }
     }
 
-    public Date getAfterDate(Date date, int year, int month, int day, int hour, int minute, int second) {
+    public static Date getAfterDate(Date date, int year, int month, int day, int hour, int minute, int second) {
         if (date == null) {
             date = new Date();
         }

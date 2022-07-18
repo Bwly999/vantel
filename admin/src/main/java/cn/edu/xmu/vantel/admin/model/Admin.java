@@ -10,13 +10,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import javax.validation.constraints.NotBlank;
+
 @TableName("vantel_admin")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class Admin extends BaseEntity {
+    @NotBlank
     private String username;
+    @NotBlank
     private String password;
     private State state;
     @TableLogic(value = "0", delval = "1")
