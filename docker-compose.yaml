@@ -12,6 +12,8 @@ services:
     restart: always
     depends_on:
       - registry
+    environment:
+      REGISTRY_HOST: registry
     ports:
     - 8080:8080
 
@@ -20,6 +22,8 @@ services:
     restart: always
     depends_on:
       - registry
+    environment:
+      REGISTRY_HOST: registry
     ports:
       - 8090:8090
 
@@ -28,6 +32,8 @@ services:
     restart: always
     depends_on:
       - registry
+    environment:
+      REGISTRY_HOST: registry
     ports:
     - 8100:8100
 

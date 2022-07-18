@@ -30,3 +30,8 @@ spring:
           uri: lb://room-service
           predicates:
             - Path=/room/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://${REGISTRY_HOST:localhost}:${REGISTRY_PORT:8761}/eureka/
