@@ -1,5 +1,7 @@
 package cn.edu.xmu.vantel.core.util;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -83,6 +85,8 @@ public enum ReturnNo {
     public static ReturnNo getReturnNoByCode(int code){
         return returnNoMap.get(code);
     }
+
+    @JsonValue
     public int getCode() {
         return code;
     }
