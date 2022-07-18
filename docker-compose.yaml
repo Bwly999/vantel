@@ -12,14 +12,14 @@ services:
     restart: always
     depends_on:
       - registry:
-          condition: service_healthy
+    ports:
+    - 8080:8080
 
   admin:
     build: admin
     restart: always
     depends_on:
       - registry:
-          condition: service_healthy
     ports:
       - 8090:8090
 
@@ -28,7 +28,6 @@ services:
     restart: always
     depends_on:
       - registry:
-          condition: service_healthy
     ports:
     - 8100:8100
 
