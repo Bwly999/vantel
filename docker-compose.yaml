@@ -1,0 +1,34 @@
+version: "3"
+
+services:
+  registry:
+    build: eureka
+    restart: always
+    ports:
+    - 8761:8761
+
+  gateway:
+    build: gateway
+    restart: always
+    depends_on:
+      registry:
+        condition: service_healthy
+
+  admin:
+    build: admin
+    restart: always
+    depends_on:
+      registry:
+        condition: service_healthy
+    ports:
+      - 8090:8090
+
+  room:
+    build: room
+    restart: always
+    depends_on:
+      registry:
+        condition: service_healthy
+    ports:
+    - 8100:8100
+

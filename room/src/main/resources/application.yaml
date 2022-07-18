@@ -5,3 +5,33 @@ spring:
   application:
     name: room-service
 
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://localhost:3306/vantel?serverTimezone=GMT%2B8
+    username: dbuser
+    password: 12345678
+    druid:
+      initial-size: 3
+      min-idle: 3
+      max-active: 100
+      max-wait: 60000
+      stat-view-servlet:
+        login-username: admin
+        login-password: 123456
+        enabled: true
+        url-pattern: /druid/*
+
+      filter:
+        stat:
+          log-slow-sql: true
+          slow-sql-millis: 100
+      validation-query: select 1
+  sql:
+    init:
+      encoding: UTF-8
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
