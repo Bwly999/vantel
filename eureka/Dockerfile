@@ -8,9 +8,9 @@ ENV SPRING_OUTPUT_ANSI_ENABLED=ALWAYS \
 
 ADD /target/*.jar /$JAR_NAME
 
-RUN /bin/sh -c set -eux; && \
-    apt-get update && \
-    apt-get install -y --no-install-recommends curl && \
+RUN /bin/sh -c set -eux \
+    apt-get update \
+    apt-get install -y --no-install-recommends curl \
     rm -rf /var/lib/apt/list/*
 
 HEALTHCHECK --interval=5s --timeout=30s CMD curl -f http://localhost:$PORT/actuator/health || exit 1
