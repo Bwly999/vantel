@@ -7,4 +7,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 
 public interface AdminService extends IService<Admin> {
     ReturnObject<LoginRetVo> login(Admin admin);
+
+    ReturnObject<Object> loginUp(Admin admin);
+
+    ReturnObject<Object> changeAdminInfo(Admin admin);
 }

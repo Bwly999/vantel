@@ -8,7 +8,6 @@ import cn.edu.xmu.vantel.core.util.JwtHelper;
 import cn.edu.xmu.vantel.core.util.ReturnNo;
 import cn.edu.xmu.vantel.core.util.ReturnObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
@@ -29,5 +28,25 @@ public class AdminServiceImp extends ServiceImpl<AdminMapper, Admin> implements 
 
         String token = JwtHelper.createToken(daoAdmin.getId(), daoAdmin.getUsername());
         return new ReturnObject<>(new LoginRetVo(token));
+    }
+
+    @Override
+    public ReturnObject<Object> loginUp(Admin admin) {
+        Admin insertAdmin = Admin.builder()
+                .username(admin.getUsername())
+                .password(admin.getPassword())
+                .build();
+
+        boolean isSuccess = save(insertAdmin);
+        if (isSuccess) {
+            return new ReturnObject<>();
+        }
+        return new ReturnObject<>(ReturnNo.INTERNAL_SERVER_ERR);
+    }
+
+    @Override
+    public ReturnObject<Object> changeAdminInfo(Admin admin) {
+        updateById(admin);
+        return new ReturnObject<>();
     }
 }

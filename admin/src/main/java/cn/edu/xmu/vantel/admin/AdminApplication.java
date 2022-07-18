@@ -8,7 +8,7 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-//@EnableEurekaClient
+@EnableEurekaClient
 @MapperScan("cn.edu.xmu.vantel.admin.mapper")
 public class AdminApplication {
     public static void main(String[] args) {

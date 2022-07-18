@@ -20,4 +20,19 @@ public class AdminController {
     public ReturnObject<LoginRetVo> login(@RequestBody Admin admin) {
         return adminService.login(admin);
     }
+
+    /**
+     * 注册
+     * @param admin
+     * @return
+     */
+    @PostMapping("")
+    public ReturnObject<Object> loginUp(@RequestBody Admin admin) {
+        return adminService.loginUp(admin);
+    }
+
+    @PutMapping("")
+    public ReturnObject<Object> changeAdminInfo(@RequestBody Admin admin) {
+        return adminService.changeAdminInfo(admin);
+    }
 }

@@ -24,7 +24,7 @@ public class EncryptUtil {
             Object value = encryptField.get(obj);
             if (value instanceof String) {
                 String content = (String) value;
-                Coder coder = coderMap.get(content);
+                Coder coder = coderMap.get(method);
                 if (coder != null) {
                     String encryptValue = coder.encrypt(content);
                     encryptField.set(obj, encryptValue);
