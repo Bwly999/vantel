@@ -11,7 +11,7 @@ services:
     build: gateway
     restart: always
     depends_on:
-      - registry:
+      - registry
     ports:
     - 8080:8080
 
@@ -19,7 +19,7 @@ services:
     build: admin
     restart: always
     depends_on:
-      - registry:
+      - registry
     ports:
       - 8090:8090
 
@@ -27,7 +27,7 @@ services:
     build: room
     restart: always
     depends_on:
-      - registry:
+      - registry
     ports:
     - 8100:8100
 
