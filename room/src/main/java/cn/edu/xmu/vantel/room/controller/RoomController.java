@@ -3,9 +3,11 @@ package cn.edu.xmu.vantel.room.controller;
 import cn.edu.xmu.vantel.core.constant.DateTimeConstants;
 import cn.edu.xmu.vantel.core.util.ReturnNo;
 import cn.edu.xmu.vantel.core.util.ReturnObject;
+import cn.edu.xmu.vantel.room.model.CombustibleGas;
 import cn.edu.xmu.vantel.room.model.Humidity;
 import cn.edu.xmu.vantel.room.model.Room;
 import cn.edu.xmu.vantel.room.model.Temperature;
+import cn.edu.xmu.vantel.room.service.CombustibleGasService;
 import cn.edu.xmu.vantel.room.service.HumidityService;
 import cn.edu.xmu.vantel.room.service.RoomService;
 import cn.edu.xmu.vantel.room.service.TemperatureService;
@@ -25,6 +27,9 @@ public class RoomController {
 
     @Autowired
     private HumidityService humidityService;
+
+    @Autowired
+    private CombustibleGasService combustibleGasService;
 
     @Autowired
     private RoomService roomService;
@@ -53,6 +58,21 @@ public class RoomController {
     @PostMapping("/humidity")
     public ReturnObject<Object> uploadHumidity(@RequestBody @Validated Humidity humidity) {
         boolean isSuccess = humidityService.save(humidity);
+        if (isSuccess) {
+            return new ReturnObject<>();
+        }
+        return new ReturnObject<>(ReturnNo.INTERNAL_SERVER_ERR);
+    }
+
+    /**
+     *
+     * 上传房间可燃气体浓度
+     * @param combustibleGas
+     * @return
+     */
+    @PostMapping("/combustibleGas")
+    public ReturnObject<Object> uploadHumidity(@RequestBody @Validated CombustibleGas combustibleGas) {
+        boolean isSuccess = combustibleGasService.save(combustibleGas);
         if (isSuccess) {
             return new ReturnObject<>();
         }
