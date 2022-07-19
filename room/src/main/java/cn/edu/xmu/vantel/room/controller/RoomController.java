@@ -128,4 +128,20 @@ public class RoomController {
                                                            LocalDateTime endDate) {
         return humidityService.getRoomHumidity(roomId, beginDate, endDate);
     }
+
+    /**
+     * 管理员获取房间可燃气体信息
+     * @param roomId
+     * @return
+     */
+    @GetMapping("/admin/room/{roomId}/combustibleGas")
+    public ReturnObject<List<CombustibleGas>> getRoomCombustibleGas(@PathVariable("roomId") Long roomId,
+                                                        @RequestParam(required = false)
+                                                        @DateTimeFormat(pattern = DateTimeConstants.INPUT_DATE_TIME_FORMAT)
+                                                                LocalDateTime beginDate,
+                                                        @RequestParam(required = false)
+                                                        @DateTimeFormat(pattern = DateTimeConstants.INPUT_DATE_TIME_FORMAT)
+                                                                LocalDateTime endDate) {
+        return combustibleGasService.getRoomCombustibleGas(roomId, beginDate, endDate);
+    }
 }
