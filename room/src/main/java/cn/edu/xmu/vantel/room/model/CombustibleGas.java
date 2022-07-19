@@ -6,16 +6,15 @@ import lombok.*;
 
 import javax.validation.constraints.NotNull;
 
-
-@TableName("vantel_temperature")
+@TableName("vantel_combustible_gas")
 @Data
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Temperature extends BaseEntity {
+public class CombustibleGas extends BaseEntity {
     @NotNull
     private Long roomId;
     @NotNull
-    private Double value;
+    private Double density;
 }

@@ -65,4 +65,20 @@ CREATE TABLE `vantel_humidity` (
                                    PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '湿度表';
 
+DROP TABLE IF EXISTS `vantel_humidity`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `vantel_combustible_gas` (
+                                   `id` bigint(20) NOT NULL AUTO_INCREMENT,
+                                   `room_id` bigint(20) DEFAULT NULL,
+                                   `density` float(8, 2) DEFAULT NULL COMMENT '气体浓度',
+                                   `creator_id` bigint(20) DEFAULT NULL,
+                                   `creator_name` varchar(128) DEFAULT NULL,
+                                   `modifier_id` bigint(20) DEFAULT NULL,
+                                   `modifier_name` varchar(128) DEFAULT NULL,
+                                   `gmt_create` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                                   `gmt_modified` datetime DEFAULT NULL,
+                                   PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '可燃气体表';
+
 

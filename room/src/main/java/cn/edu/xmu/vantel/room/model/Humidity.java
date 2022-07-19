@@ -2,15 +2,13 @@ package cn.edu.xmu.vantel.room.model;
 
 import cn.edu.xmu.vantel.core.model.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
 
 @TableName("vantel_humidity")
 @Data
+@EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
