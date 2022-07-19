@@ -11,6 +11,7 @@ import cn.edu.xmu.vantel.room.service.CombustibleGasService;
 import cn.edu.xmu.vantel.room.service.HumidityService;
 import cn.edu.xmu.vantel.room.service.RoomService;
 import cn.edu.xmu.vantel.room.service.TemperatureService;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.annotation.Validated;
@@ -95,6 +96,18 @@ public class RoomController {
         return new ReturnObject<>(ReturnNo.INTERNAL_SERVER_ERR);
     }
 
+
+    /**
+     * 分页查询房间信息
+     * @param page
+     * @param pageSize
+     * @return
+     */
+    @GetMapping("/admin/room/page")
+    public ReturnObject<Page<Room>> listRoomPage(@RequestParam(defaultValue = "1") Integer page,
+                                                 @RequestParam(defaultValue = "10") Integer pageSize) {
+        return roomService.listRoomPage(page, pageSize);
+    }
 
 
     /**
