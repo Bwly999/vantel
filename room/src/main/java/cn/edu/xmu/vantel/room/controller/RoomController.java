@@ -11,6 +11,7 @@ import cn.edu.xmu.vantel.room.service.RoomService;
 import cn.edu.xmu.vantel.room.service.TemperatureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -35,7 +36,7 @@ public class RoomController {
      * @return
      */
     @PostMapping("/temperature")
-    public ReturnObject<Object> uploadTemperature(@RequestBody Temperature temperature) {
+    public ReturnObject<Object> uploadTemperature(@RequestBody @Validated Temperature temperature) {
         boolean isSuccess = temperatureService.save(temperature);
         if (isSuccess) {
             return new ReturnObject<>();
@@ -50,7 +51,7 @@ public class RoomController {
      * @return
      */
     @PostMapping("/humidity")
-    public ReturnObject<Object> uploadHumidity(@RequestBody Humidity humidity) {
+    public ReturnObject<Object> uploadHumidity(@RequestBody @Validated Humidity humidity) {
         boolean isSuccess = humidityService.save(humidity);
         if (isSuccess) {
             return new ReturnObject<>();
@@ -66,7 +67,7 @@ public class RoomController {
      * @return
      */
     @PostMapping("/admin/room")
-    public ReturnObject<Object> createRoom(@RequestBody Room room) {
+    public ReturnObject<Object> createRoom(@RequestBody @Validated Room room) {
         boolean isSuccess = roomService.save(room);
         if (isSuccess) {
             return new ReturnObject<>();
