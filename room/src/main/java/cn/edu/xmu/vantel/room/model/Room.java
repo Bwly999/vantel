@@ -8,12 +8,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
+
 @TableName("vantel_room")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class Room extends BaseEntity {
+    @NotBlank
     private String number;
     private Byte state;
     @TableLogic(value = "0", delval = "1")

@@ -1,5 +1,6 @@
 package cn.edu.xmu.vantel.core.model;
 
+import cn.edu.xmu.vantel.core.constant.DateTimeConstants;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -32,10 +33,10 @@ public class BaseEntity implements Serializable {
     @TableField(fill = FieldFill.UPDATE)
     protected String modifierName;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = DateTimeConstants.OUTPUT_DATE_TIME_FORMAT)
     protected LocalDateTime gmtCreate;
 
     @TableField(fill = FieldFill.UPDATE)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = DateTimeConstants.OUTPUT_DATE_TIME_FORMAT)
     protected LocalDateTime gmtModified;
 }

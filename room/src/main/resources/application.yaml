@@ -31,6 +31,18 @@ spring:
     init:
       encoding: UTF-8
 
+  redis:
+    database: 1
+    lettuce:
+      pool:
+        max-active: 100
+        max-idle: 100
+        min-idle: 0
+        max-wait: -1
+    timeout: 5000
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+
 eureka:
   client:
     service-url:

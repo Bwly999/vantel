@@ -20,7 +20,7 @@ public class FillHandler implements MetaObjectHandler {
     @AllArgsConstructor
     @NoArgsConstructor
     @Data
-    class FillInfo {
+    static class FillInfo {
         Long userId;
         String userName;
     }

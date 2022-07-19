@@ -35,4 +35,6 @@ public class AdminController {
     public ReturnObject<Object> changeAdminInfo(@RequestBody Admin admin) {
         return adminService.changeAdminInfo(admin);
     }
+
+
 }
