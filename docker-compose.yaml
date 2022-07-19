@@ -48,3 +48,12 @@ services:
     ports:
     - 8100:8100
 
+  room2:
+    build: room
+    restart: always
+    depends_on:
+      - registry
+    environment:
+      REGISTRY_HOST: registry
+      REDIS_HOST: redis
+

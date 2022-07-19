@@ -30,7 +30,7 @@ public interface RoomService {
      * @return
      */
     @GetMapping("/admin/room/page")
-    public ReturnObject<Page<Room>> listRoomPage(@RequestParam Integer page, @RequestParam Integer pageSize);
+    ReturnObject<Page<Room>> listRoomPage(@RequestParam Integer page, @RequestParam Integer pageSize);
 
     /**
      * 管理员获取房间温度信息
