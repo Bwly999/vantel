@@ -30,7 +30,7 @@ public class EncryptInterceptor implements Interceptor {
                 if (parameterObject != null) {
                     if (parameterObject instanceof MapperMethod.ParamMap<?>) {
                         MapperMethod.ParamMap<?> paramMap = (MapperMethod.ParamMap<?>) parameterObject;
-                        parameterObject = paramMap.get("et");
+                        parameterObject = paramMap.getOrDefault("et", null);
                     }
                     if (parameterObject != null) {
                         Class<?> paramClass = parameterObject.getClass();
