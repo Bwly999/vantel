@@ -13,6 +13,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping(value = "/admin", produces = "application/json;charset=UTF-8")
 public class AdminController {
@@ -53,5 +55,16 @@ public class AdminController {
 //    @Audit
     ReturnObject<Page<Room>> listRoomPage(@RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10") Integer pageSize) {
         return roomService.listRoomPage(page, pageSize);
+    }
+
+    /**
+     * 管理员获取房间过去totalHour个小时的温度统计信息
+     * @param roomId
+     * @param totalHour
+     * @return
+     */
+    @GetMapping("/room/{roomId}/temperature/hour")
+    public ReturnObject<Map<String, Object>> getRoomTemperatureInHour(@PathVariable("roomId") Long roomId, @RequestParam(defaultValue = "24") Integer totalHour) {
+        return roomService.getRoomTemperatureInHour(roomId, totalHour);
     }
 }

@@ -1,5 +1,6 @@
 package cn.edu.xmu.vantel.room.service.impl;
 
+import cn.edu.xmu.vantel.core.model.BaseEntity;
 import cn.edu.xmu.vantel.core.util.ReturnObject;
 import cn.edu.xmu.vantel.room.mapper.TemperatureMapper;
 import cn.edu.xmu.vantel.room.model.Temperature;
@@ -9,8 +10,10 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service("temperatureService")
 public class TemperatureServiceImpl extends ServiceImpl<TemperatureMapper, Temperature> implements TemperatureService {
@@ -34,5 +37,47 @@ public class TemperatureServiceImpl extends ServiceImpl<TemperatureMapper, Tempe
                 .build();
 
         return new ReturnObject<>(listRoomByExample(example, beginDate, endDate));
+    }
+
+    private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd HH");
+
+    @Override
+    public ReturnObject<Map<String, Object>> getRoomTemperatureInHour(Long roomId, Integer totalHour) {
+        LocalDateTime endDateTime = LocalDateTime.now();
+        LocalDateTime beginDateTime = endDateTime.minusHours(totalHour);
+
+        Temperature example = Temperature.builder()
+                .roomId(roomId)
+                .build();
+        List<Temperature> temperatureList = listRoomByExample(example, beginDateTime, endDateTime);
+        temperatureList.forEach(x -> x.setGmtCreate(x.getGmtCreate().truncatedTo(ChronoUnit.HOURS)));
+        Map<LocalDateTime, List<Temperature>> hourTemperatureMap = temperatureList.stream().collect(Collectors.groupingBy(BaseEntity::getGmtCreate));
+
+
+        List<String> dateTime = hourTemperatureMap.keySet().stream().map(x -> x.format(dateTimeFormatter)).collect(Collectors.toList());
+        List<DoubleSummaryStatistics> collect = hourTemperatureMap.values().stream()
+                .map(list -> list.stream().mapToDouble(Temperature::getValue).summaryStatistics())
+                .collect(Collectors.toList());
+        List<Double> maxTemperature = collect.stream().map(DoubleSummaryStatistics::getMax).collect(Collectors.toList());
+        List<Double> minTemperature = collect.stream().map(DoubleSummaryStatistics::getMin).collect(Collectors.toList());
+        List<Double> avgTemperature = collect.stream().map(DoubleSummaryStatistics::getAverage).collect(Collectors.toList());
+
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("dateTime", dateTime);
+        resultMap.put("maxTemperature", maxTemperature);
+        resultMap.put("minTemperature", minTemperature);
+        resultMap.put("avgTemperature", avgTemperature);
+        return new ReturnObject<>(resultMap);
+    }
+
+    public static void main(String[] args) {
+        LocalDateTime now = LocalDateTime.now();
+        System.out.println(now);
+        System.out.println(now.truncatedTo(ChronoUnit.HOURS));
+        System.out.println(now.truncatedTo(ChronoUnit.MINUTES));
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd HH");
+        DateTimeFormatter dateTimeFormatter1 = DateTimeFormatter.ofPattern("MM/dd HH", Locale.CHINA);
+        System.out.println(now.format(dateTimeFormatter));
+        System.out.println(now.format(dateTimeFormatter1));
     }
 }

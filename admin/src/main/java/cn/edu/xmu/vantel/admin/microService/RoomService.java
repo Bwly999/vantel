@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @FeignClient(name = "room-service")
 public interface RoomService {
@@ -39,6 +40,15 @@ public interface RoomService {
      */
     @GetMapping("/room/admin/room/{roomId}/temperature")
     ReturnObject<List<Temperature>> getRoomTemperature(@PathVariable("roomId") Long roomId, @RequestParam LocalDateTime beginDate, @RequestParam LocalDateTime endDate);
+
+    /**
+     * 管理员获取房间过去totalHour个小时的温度统计信息
+     * @param roomId
+     * @param totalHour
+     * @return
+     */
+    @GetMapping("/admin/room/{roomId}/temperature/hour")
+    ReturnObject<Map<String, Object>> getRoomTemperatureInHour(@PathVariable("roomId") Long roomId, @RequestParam(defaultValue = "24") Integer totalHour);
 
     /**
      * 管理员获取房间湿度信息

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/room", produces = "application/json;charset=UTF-8")
@@ -125,6 +126,18 @@ public class RoomController {
                                                    LocalDateTime endDate) {
         return temperatureService.getRoomTemperature(roomId, beginDate, endDate);
     }
+
+    /**
+     * 管理员获取房间过去totalHour个小时的温度统计信息
+     * @param roomId
+     * @param totalHour
+     * @return
+     */
+    @GetMapping("/admin/room/{roomId}/temperature/hour")
+    public ReturnObject<Map<String, Object>> getRoomTemperatureInHour(@PathVariable("roomId") Long roomId, @RequestParam(defaultValue = "24") Integer totalHour) {
+        return temperatureService.getRoomTemperatureInHour(roomId, totalHour);
+    }
+
 
     /**
      * 管理员获取房间湿度信息
