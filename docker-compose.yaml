@@ -4,6 +4,9 @@ services:
   redis:
     image: redis:alpine
     restart: always
+    volumes:
+      - /etc/localtime: /etc/localtime:ro
+      - /etc/timezone: /etc/timezone:ro
     ports:
     - 6379:6379
 
@@ -12,6 +15,9 @@ services:
     restart: always
     depends_on:
       - redis
+    volumes:
+      - /etc/localtime: /etc/localtime:ro
+      - /etc/timezone: /etc/timezone:ro
     ports:
     - 8761:8761
 
@@ -23,6 +29,9 @@ services:
     environment:
       REGISTRY_HOST: registry
       REDIS_HOST: redis
+    volumes:
+      - /etc/localtime: /etc/localtime:ro
+      - /etc/timezone: /etc/timezone:ro
     ports:
     - 8080:8080
 
@@ -34,6 +43,9 @@ services:
     environment:
       REGISTRY_HOST: registry
       REDIS_HOST: redis
+    volumes:
+      - /etc/localtime: /etc/localtime:ro
+      - /etc/timezone: /etc/timezone:ro
     ports:
       - 8090:8090
 
@@ -45,8 +57,11 @@ services:
     environment:
       REGISTRY_HOST: registry
       REDIS_HOST: redis
+    volumes:
+      - /etc/localtime: /etc/localtime:ro
+      - /etc/timezone: /etc/timezone:ro
     ports:
-    - 8100:8100
+      - 8100:8100
 
   room2:
     build: room
@@ -56,4 +71,7 @@ services:
     environment:
       REGISTRY_HOST: registry
       REDIS_HOST: redis
+    volumes:
+      - /etc/localtime: /etc/localtime:ro
+      - /etc/timezone: /etc/timezone:ro
 
