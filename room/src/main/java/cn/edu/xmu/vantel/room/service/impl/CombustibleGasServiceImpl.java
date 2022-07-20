@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -42,6 +43,7 @@ public class CombustibleGasServiceImpl extends ServiceImpl<CombustibleGasMapper,
     @Override
     public ReturnObject<Map<String, Object>> getRoomCombustibleGasInHour(Long roomId, Integer totalHour) {
         LocalDateTime endDateTime = LocalDateTime.now();
+        System.out.println(LocalDateTime.now());
         LocalDateTime beginDateTime = endDateTime.minusHours(totalHour);
 
         CombustibleGas example = CombustibleGas.builder()

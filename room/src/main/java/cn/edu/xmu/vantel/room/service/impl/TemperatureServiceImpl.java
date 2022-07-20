@@ -7,6 +7,7 @@ import cn.edu.xmu.vantel.room.model.Temperature;
 import cn.edu.xmu.vantel.room.service.TemperatureService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -16,6 +17,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service("temperatureService")
+@Slf4j
 public class TemperatureServiceImpl extends ServiceImpl<TemperatureMapper, Temperature> implements TemperatureService {
     private LambdaQueryWrapper<Temperature> getQueryWrapperByExample(Temperature example, LocalDateTime beginDate, LocalDateTime endDate) {
         LambdaQueryWrapper<Temperature> queryWrapper = new LambdaQueryWrapper<>();
@@ -50,9 +52,11 @@ public class TemperatureServiceImpl extends ServiceImpl<TemperatureMapper, Tempe
                 .roomId(roomId)
                 .build();
         List<Temperature> temperatureList = listTemperatureByExample(example, beginDateTime, endDateTime);
+        log.info("begin: {}, end: {}", beginDateTime, endDateTime);
+        log.info("temperatureList: {}", temperatureList);
         temperatureList.forEach(x -> x.setGmtCreate(x.getGmtCreate().truncatedTo(ChronoUnit.HOURS)));
         Map<LocalDateTime, List<Temperature>> hourTemperatureMap = temperatureList.stream().collect(Collectors.groupingBy(BaseEntity::getGmtCreate, LinkedHashMap::new, Collectors.toList()));
-
+        log.info("hourTemperatureMap: {}", hourTemperatureMap);
 
         List<String> dateTime = hourTemperatureMap.keySet().stream().map(x -> x.format(dateTimeFormatter)).collect(Collectors.toList());
         List<DoubleSummaryStatistics> collect = hourTemperatureMap.values().stream()
@@ -62,6 +66,7 @@ public class TemperatureServiceImpl extends ServiceImpl<TemperatureMapper, Tempe
         List<Double> minTemperature = collect.stream().map(DoubleSummaryStatistics::getMin).collect(Collectors.toList());
         List<Double> avgTemperature = collect.stream().map(DoubleSummaryStatistics::getAverage).collect(Collectors.toList());
 
+        log.info("dateTime: {}", dateTime);
         Map<String, Object> resultMap = new HashMap<>();
         resultMap.put("dateTime", dateTime);
         resultMap.put("maxTemperature", maxTemperature);
