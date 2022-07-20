@@ -2,12 +2,14 @@ package cn.edu.xmu.vantel.admin.controller;
 
 import cn.edu.xmu.vantel.admin.microService.RoomService;
 import cn.edu.xmu.vantel.admin.model.Admin;
+import cn.edu.xmu.vantel.admin.model.dto.Room;
 import cn.edu.xmu.vantel.admin.model.vo.LoginRetVo;
 import cn.edu.xmu.vantel.admin.service.AdminService;
 import cn.edu.xmu.vantel.core.aop.user.Audit;
 import cn.edu.xmu.vantel.core.aop.user.LoginUser;
 import cn.edu.xmu.vantel.core.util.ReturnNo;
 import cn.edu.xmu.vantel.core.util.ReturnObject;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,5 +49,9 @@ public class AdminController {
         return adminService.changeAdminInfo(admin);
     }
 
-
+    @GetMapping("/room/page")
+//    @Audit
+    ReturnObject<Page<Room>> listRoomPage(@RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10") Integer pageSize) {
+        return roomService.listRoomPage(page, pageSize);
+    }
 }

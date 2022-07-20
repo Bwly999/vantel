@@ -19,7 +19,7 @@ public interface RoomService {
      * @param room
      * @return
      */
-    @PostMapping("/admin/room")
+    @PostMapping("/room/admin/room")
     ReturnObject<Object> createRoom(@RequestBody Room room);
 
 
@@ -29,7 +29,7 @@ public interface RoomService {
      * @param pageSize
      * @return
      */
-    @GetMapping("/admin/room/page")
+    @GetMapping("/room/admin/room/page")
     ReturnObject<Page<Room>> listRoomPage(@RequestParam Integer page, @RequestParam Integer pageSize);
 
     /**
@@ -37,7 +37,7 @@ public interface RoomService {
      * @param roomId
      * @return
      */
-    @GetMapping("/admin/room/{roomId}/temperature")
+    @GetMapping("/room/admin/room/{roomId}/temperature")
     ReturnObject<List<Temperature>> getRoomTemperature(@PathVariable("roomId") Long roomId, @RequestParam LocalDateTime beginDate, @RequestParam LocalDateTime endDate);
 
     /**
@@ -45,7 +45,7 @@ public interface RoomService {
      * @param roomId
      * @return
      */
-    @GetMapping("/admin/room/{roomId}/humidity")
+    @GetMapping("/room/admin/room/{roomId}/humidity")
     ReturnObject<List<Humidity>> getRoomHumidity(@PathVariable("roomId") Long roomId, @RequestParam LocalDateTime beginDate, @RequestParam LocalDateTime endDate);
 
     /**
@@ -53,6 +53,6 @@ public interface RoomService {
      * @param roomId
      * @return
      */
-    @GetMapping("/admin/room/{roomId}/combustibleGas")
+    @GetMapping("/room/admin/room/{roomId}/combustibleGas")
     ReturnObject<List<CombustibleGas>> getRoomCombustibleGas(@PathVariable("roomId") Long roomId, @RequestParam LocalDateTime beginDate, @RequestParam LocalDateTime endDate);
 }

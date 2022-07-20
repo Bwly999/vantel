@@ -1,6 +1,7 @@
 package cn.edu.xmu.vantel.core.config.mybatis;
 
 import cn.edu.xmu.vantel.core.util.EncryptUtil;
+import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.binding.MapperMethod;
 import org.apache.ibatis.executor.parameter.ParameterHandler;
