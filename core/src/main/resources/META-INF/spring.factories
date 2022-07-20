@@ -7,4 +7,5 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   cn.edu.xmu.vantel.core.config.OpenFeignConfig,\
   cn.edu.xmu.vantel.core.config.RedisConfig,\
   cn.edu.xmu.vantel.core.util.storage.config.StorageAutoConfiguration,\
-  cn.edu.xmu.vantel.core.config.mybatis.EncryptInterceptor
+  cn.edu.xmu.vantel.core.config.mybatis.EncryptConfig, \
+  cn.edu.xmu.vantel.core.config.mybatisplus.MybatisPlusConfig

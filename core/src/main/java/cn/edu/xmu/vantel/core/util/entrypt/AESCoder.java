@@ -68,7 +68,7 @@ public class AESCoder implements Coder {
             // 明文
             return new String(result);
 
-        } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException e) {
+        } catch (Exception e) {
             logger.error(e.getStackTrace()[0] + e.getMessage());
         }
         return null;

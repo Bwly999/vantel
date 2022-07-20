@@ -1,25 +1,24 @@
 package cn.edu.xmu.vantel.core.config.mybatis;
 
-import cn.edu.xmu.vantel.core.util.EncryptUtil;
-import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
+import cn.edu.xmu.vantel.core.util.entrypt.EncryptUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.binding.MapperMethod;
 import org.apache.ibatis.executor.parameter.ParameterHandler;
 import org.apache.ibatis.plugin.*;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.annotation.AnnotationUtils;
-import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
 import java.sql.PreparedStatement;
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
-@Component
-@ConditionalOnProperty(name = "vantel.encrypt.enable", havingValue = "true")
 @Intercepts({
         @Signature(type = ParameterHandler.class, method = "setParameters", args = PreparedStatement.class)
 })
 public class EncryptInterceptor implements Interceptor {
+    private EncryptFieldCacheHolder.EncryptFieldCache encryptFieldCache = EncryptFieldCacheHolder.getInstance();
+
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
         try {
@@ -35,9 +34,10 @@ public class EncryptInterceptor implements Interceptor {
                     }
                     if (parameterObject != null) {
                         Class<?> paramClass = parameterObject.getClass();
-                        Field[] fields = paramClass.getDeclaredFields();
-                        for (Field field : fields) {
-                            EncryptValue annotation = AnnotationUtils.findAnnotation(field, EncryptValue.class);
+
+                        List<Field> encryptFieldList = encryptFieldCache.getAndAutoSet(paramClass);
+                        for (Field field : encryptFieldList) {
+                            EncryptValue annotation = field.getAnnotation(EncryptValue.class);
                             if (annotation != null) {
                                 EncryptUtil.encrypt(parameterObject, field, annotation.method());
                             }

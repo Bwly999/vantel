@@ -1,7 +1,5 @@
-package cn.edu.xmu.vantel.core.util;
+package cn.edu.xmu.vantel.core.util.entrypt;
 
-import cn.edu.xmu.vantel.core.util.entrypt.AESCoder;
-import cn.edu.xmu.vantel.core.util.entrypt.Coder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,6 +26,22 @@ public class EncryptUtil {
                 if (coder != null) {
                     String encryptValue = coder.encrypt(content);
                     encryptField.set(obj, encryptValue);
+                }
+            }
+        } catch (IllegalAccessException e) {
+            log.error(e.getStackTrace()[0] + e.getMessage());
+        }
+    }
+    public static void decrypt(Object obj, Field encryptField, String method) {
+        try {
+            encryptField.setAccessible(true);
+            Object value = encryptField.get(obj);
+            if (value instanceof String) {
+                String content = (String) value;
+                Coder coder = coderMap.get(method);
+                if (coder != null) {
+                    String decryptValue = coder.decrypt(content);
+                    encryptField.set(obj, decryptValue);
                 }
             }
         } catch (IllegalAccessException e) {

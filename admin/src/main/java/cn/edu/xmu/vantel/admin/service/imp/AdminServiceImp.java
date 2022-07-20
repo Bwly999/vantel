@@ -18,11 +18,10 @@ public class AdminServiceImp extends ServiceImpl<AdminMapper, Admin> implements 
     public ReturnObject<LoginRetVo> login(Admin admin) {
         LambdaQueryWrapper<Admin> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper
-                .eq(Admin::getUsername, admin.getUsername())
-                .eq(Admin::getPassword, admin.getPassword());
+                .eq(Admin::getUsername, admin.getUsername());
 
         Admin daoAdmin = getOne(queryWrapper);
-        if (daoAdmin == null) {
+        if (daoAdmin == null || !admin.getPassword().equals(daoAdmin.getPassword())) {
             return new ReturnObject<>(ReturnNo.CUSTOMER_INVALID_ACCOUNT);
         }
 
