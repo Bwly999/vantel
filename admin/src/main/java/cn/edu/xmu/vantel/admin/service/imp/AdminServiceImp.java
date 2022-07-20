@@ -11,6 +11,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service("adminService")
 public class AdminServiceImp extends ServiceImpl<AdminMapper, Admin> implements AdminService {
 
@@ -31,6 +33,13 @@ public class AdminServiceImp extends ServiceImpl<AdminMapper, Admin> implements 
 
     @Override
     public ReturnObject<Object> loginUp(Admin admin) {
+        LambdaQueryWrapper<Admin> queryWrapper = new LambdaQueryWrapper<>();
+        Optional.ofNullable(admin.getUsername()).ifPresent(x -> queryWrapper.eq(Admin::getUsername, x));
+        Admin one = getOne(queryWrapper);
+        if (one != null) {
+            return new ReturnObject<>(ReturnNo.CUSTOMER_NAMEEXIST);
+        }
+
         Admin insertAdmin = Admin.builder()
                 .username(admin.getUsername())
                 .password(admin.getPassword())
