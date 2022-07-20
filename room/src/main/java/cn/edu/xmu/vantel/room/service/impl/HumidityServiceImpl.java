@@ -1,5 +1,6 @@
 package cn.edu.xmu.vantel.room.service.impl;
 
+import cn.edu.xmu.vantel.core.model.BaseEntity;
 import cn.edu.xmu.vantel.core.util.ReturnObject;
 import cn.edu.xmu.vantel.room.mapper.HumidityMapper;
 import cn.edu.xmu.vantel.room.model.Humidity;
@@ -10,8 +11,10 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service("humidityService")
 public class HumidityServiceImpl extends ServiceImpl<HumidityMapper, Humidity> implements HumidityService {
@@ -34,5 +37,32 @@ public class HumidityServiceImpl extends ServiceImpl<HumidityMapper, Humidity> i
                 .build();
 
         return new ReturnObject<>(listHumidityByExample(example, beginDate, endDate));
+    }
+
+    private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd HH:mm");
+
+    @Override
+    public ReturnObject<Map<String, Object>> getRoomHumidityInHour(Long roomId, Integer totalHour) {
+        LocalDateTime endDateTime = LocalDateTime.now();
+        LocalDateTime beginDateTime = endDateTime.minusHours(totalHour);
+
+        Humidity example = Humidity.builder()
+                .roomId(roomId)
+                .build();
+        List<Humidity> humidityList = listHumidityByExample(example, beginDateTime, endDateTime);
+        humidityList.forEach(x -> x.setGmtCreate(x.getGmtCreate().truncatedTo(ChronoUnit.HOURS)));
+        Map<LocalDateTime, List<Humidity>> hourHumidityMap = humidityList.stream().collect(Collectors.groupingBy(Humidity::getGmtCreate, LinkedHashMap::new, Collectors.toList()));
+
+
+        List<String> dateTime = hourHumidityMap.keySet().stream().map(x -> x.format(dateTimeFormatter)).collect(Collectors.toList());
+        List<DoubleSummaryStatistics> collect = hourHumidityMap.values().stream()
+                .map(list -> list.stream().mapToDouble(Humidity::getValue).summaryStatistics())
+                .collect(Collectors.toList());
+        List<Double> avgHumidity = collect.stream().map(DoubleSummaryStatistics::getAverage).collect(Collectors.toList());
+
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("dateTime", dateTime);
+        resultMap.put("humidity", avgHumidity);
+        return new ReturnObject<>(resultMap);
     }
 }

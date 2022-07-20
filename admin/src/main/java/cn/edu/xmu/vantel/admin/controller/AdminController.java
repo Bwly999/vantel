@@ -67,4 +67,26 @@ public class AdminController {
     public ReturnObject<Map<String, Object>> getRoomTemperatureInHour(@PathVariable("roomId") Long roomId, @RequestParam(defaultValue = "24") Integer totalHour) {
         return roomService.getRoomTemperatureInHour(roomId, totalHour);
     }
+
+    /**
+     * 管理员获取房间过去totalHour个小时的湿度统计信息
+     * @param roomId
+     * @param totalHour
+     * @return
+     */
+    @GetMapping("/room/{roomId}/humidity/hour")
+    public ReturnObject<Map<String, Object>> getRoomHumidityInHour(@PathVariable("roomId") Long roomId, @RequestParam(defaultValue = "24") Integer totalHour) {
+        return roomService.getRoomHumidityInHour(roomId, totalHour);
+    }
+
+    /**
+     * 管理员获取房间过去totalHour个小时的可燃气体浓度统计信息
+     * @param roomId
+     * @param totalHour
+     * @return
+     */
+    @GetMapping("/room/{roomId}/combustibleGas/hour")
+    public ReturnObject<Map<String, Object>> getRoomCombustibleGasInHour(@PathVariable("roomId") Long roomId, @RequestParam(defaultValue = "24") Integer totalHour) {
+        return roomService.getRoomCombustibleGasInHour(roomId, totalHour);
+    }
 }

@@ -156,6 +156,17 @@ public class RoomController {
     }
 
     /**
+     * 管理员获取房间过去totalHour个小时的湿度统计信息
+     * @param roomId
+     * @param totalHour
+     * @return
+     */
+    @GetMapping("/admin/room/{roomId}/humidity/hour")
+    public ReturnObject<Map<String, Object>> getRoomHumidityInHour(@PathVariable("roomId") Long roomId, @RequestParam(defaultValue = "24") Integer totalHour) {
+        return humidityService.getRoomHumidityInHour(roomId, totalHour);
+    }
+
+    /**
      * 管理员获取房间可燃气体信息
      * @param roomId
      * @return
@@ -169,5 +180,16 @@ public class RoomController {
                                                         @DateTimeFormat(pattern = DateTimeConstants.INPUT_DATE_TIME_FORMAT)
                                                                 LocalDateTime endDate) {
         return combustibleGasService.getRoomCombustibleGas(roomId, beginDate, endDate);
+    }
+
+    /**
+     * 管理员获取房间过去totalHour个小时的可燃气体浓度统计信息
+     * @param roomId
+     * @param totalHour
+     * @return
+     */
+    @GetMapping("/admin/room/{roomId}/combustibleGas/hour")
+    public ReturnObject<Map<String, Object>> getRoomCombustibleGasInHour(@PathVariable("roomId") Long roomId, @RequestParam(defaultValue = "24") Integer totalHour) {
+        return combustibleGasService.getRoomCombustibleGasInHour(roomId, totalHour);
     }
 }

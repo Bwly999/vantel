@@ -25,7 +25,7 @@ public class TemperatureServiceImpl extends ServiceImpl<TemperatureMapper, Tempe
         return queryWrapper;
     }
 
-    private List<Temperature> listRoomByExample(Temperature example, LocalDateTime beginDate, LocalDateTime endDate) {
+    private List<Temperature> listTemperatureByExample(Temperature example, LocalDateTime beginDate, LocalDateTime endDate) {
         LambdaQueryWrapper<Temperature> queryWrapper = getQueryWrapperByExample(example, beginDate, endDate);
         return list(queryWrapper);
     }
@@ -36,7 +36,7 @@ public class TemperatureServiceImpl extends ServiceImpl<TemperatureMapper, Tempe
                 .roomId(roomId)
                 .build();
 
-        return new ReturnObject<>(listRoomByExample(example, beginDate, endDate));
+        return new ReturnObject<>(listTemperatureByExample(example, beginDate, endDate));
     }
 
     private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd HH:mm");
@@ -49,7 +49,7 @@ public class TemperatureServiceImpl extends ServiceImpl<TemperatureMapper, Tempe
         Temperature example = Temperature.builder()
                 .roomId(roomId)
                 .build();
-        List<Temperature> temperatureList = listRoomByExample(example, beginDateTime, endDateTime);
+        List<Temperature> temperatureList = listTemperatureByExample(example, beginDateTime, endDateTime);
         temperatureList.forEach(x -> x.setGmtCreate(x.getGmtCreate().truncatedTo(ChronoUnit.HOURS)));
         Map<LocalDateTime, List<Temperature>> hourTemperatureMap = temperatureList.stream().collect(Collectors.groupingBy(BaseEntity::getGmtCreate, LinkedHashMap::new, Collectors.toList()));
 
