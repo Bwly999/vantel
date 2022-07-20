@@ -47,7 +47,7 @@ public interface RoomService {
      * @param totalHour
      * @return
      */
-    @GetMapping("/admin/room/{roomId}/temperature/hour")
+    @GetMapping("/room/admin/room/{roomId}/temperature/hour")
     ReturnObject<Map<String, Object>> getRoomTemperatureInHour(@PathVariable("roomId") Long roomId, @RequestParam(defaultValue = "24") Integer totalHour);
 
     /**

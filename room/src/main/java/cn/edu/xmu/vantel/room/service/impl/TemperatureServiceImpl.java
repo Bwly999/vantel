@@ -39,7 +39,7 @@ public class TemperatureServiceImpl extends ServiceImpl<TemperatureMapper, Tempe
         return new ReturnObject<>(listRoomByExample(example, beginDate, endDate));
     }
 
-    private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd HH");
+    private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd HH:mm");
 
     @Override
     public ReturnObject<Map<String, Object>> getRoomTemperatureInHour(Long roomId, Integer totalHour) {
@@ -51,7 +51,7 @@ public class TemperatureServiceImpl extends ServiceImpl<TemperatureMapper, Tempe
                 .build();
         List<Temperature> temperatureList = listRoomByExample(example, beginDateTime, endDateTime);
         temperatureList.forEach(x -> x.setGmtCreate(x.getGmtCreate().truncatedTo(ChronoUnit.HOURS)));
-        Map<LocalDateTime, List<Temperature>> hourTemperatureMap = temperatureList.stream().collect(Collectors.groupingBy(BaseEntity::getGmtCreate));
+        Map<LocalDateTime, List<Temperature>> hourTemperatureMap = temperatureList.stream().collect(Collectors.groupingBy(BaseEntity::getGmtCreate, LinkedHashMap::new, Collectors.toList()));
 
 
         List<String> dateTime = hourTemperatureMap.keySet().stream().map(x -> x.format(dateTimeFormatter)).collect(Collectors.toList());
@@ -68,16 +68,5 @@ public class TemperatureServiceImpl extends ServiceImpl<TemperatureMapper, Tempe
         resultMap.put("minTemperature", minTemperature);
         resultMap.put("avgTemperature", avgTemperature);
         return new ReturnObject<>(resultMap);
-    }
-
-    public static void main(String[] args) {
-        LocalDateTime now = LocalDateTime.now();
-        System.out.println(now);
-        System.out.println(now.truncatedTo(ChronoUnit.HOURS));
-        System.out.println(now.truncatedTo(ChronoUnit.MINUTES));
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd HH");
-        DateTimeFormatter dateTimeFormatter1 = DateTimeFormatter.ofPattern("MM/dd HH", Locale.CHINA);
-        System.out.println(now.format(dateTimeFormatter));
-        System.out.println(now.format(dateTimeFormatter1));
     }
 }
